@@ -36,11 +36,12 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewDirection) {
 @class JNWCollectionView;
 @interface JNWCollectionViewLayout : NSObject
 
+/// The collection view that the layout is associated with.
 @property (nonatomic, weak, readonly) JNWCollectionView *collectionView;
 
-
-/// Dedicated initializer. Subclasses should override this method for their custom
-/// initializers.
+/// Designated initializer.
+///
+/// Subclasses should override this method for their custom initializers.
 - (instancetype)initWithCollectionView:(JNWCollectionView *)collectionView;
 
 /// This method is provided as a way to inform the layout that it will

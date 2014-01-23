@@ -46,6 +46,11 @@
 	return self;
 }
 
+- (instancetype)init {
+	NSAssert(NO, @"The designated initializer (-initWithCollectionView:) must be used on any JNWCollectionViewLayout subclasses.");
+	return [super init];
+}
+
 - (JNWCollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
 	return nil;
 }
