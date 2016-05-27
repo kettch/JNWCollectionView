@@ -40,6 +40,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		71D7C24A1CF6FB6C004C52A0 /* JNWCollectionView-common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "JNWCollectionView-common.xcconfig"; sourceTree = "<group>"; };
+		71D7C24B1CF6FB6C004C52A0 /* JNWCollectionView-coverage.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "JNWCollectionView-coverage.xcconfig"; sourceTree = "<group>"; };
+		71D7C24C1CF6FB6C004C52A0 /* JNWCollectionView-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "JNWCollectionView-debug.xcconfig"; sourceTree = "<group>"; };
+		71D7C24D1CF6FB6C004C52A0 /* JNWCollectionView-deploy.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "JNWCollectionView-deploy.xcconfig"; sourceTree = "<group>"; };
+		71D7C24F1CF6FB6C004C52A0 /* JNWCollectionView-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "JNWCollectionView-release.xcconfig"; sourceTree = "<group>"; };
 		AB0EA368189472A400E28525 /* JNWCollectionViewLayout+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JNWCollectionViewLayout+Private.h"; path = "JNWCollectionView/JNWCollectionViewLayout+Private.h"; sourceTree = SOURCE_ROOT; };
 		AB15146D1714C90800871248 /* JNWCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JNWCollectionViewLayout.h; path = JNWCollectionView/JNWCollectionViewLayout.h; sourceTree = SOURCE_ROOT; };
 		AB15146E1714C90800871248 /* JNWCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JNWCollectionViewLayout.m; path = JNWCollectionView/JNWCollectionViewLayout.m; sourceTree = SOURCE_ROOT; };
@@ -92,6 +97,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		71D7C2471CF6FB6C004C52A0 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				71D7C24A1CF6FB6C004C52A0 /* JNWCollectionView-common.xcconfig */,
+				71D7C24B1CF6FB6C004C52A0 /* JNWCollectionView-coverage.xcconfig */,
+				71D7C24C1CF6FB6C004C52A0 /* JNWCollectionView-debug.xcconfig */,
+				71D7C24D1CF6FB6C004C52A0 /* JNWCollectionView-deploy.xcconfig */,
+				71D7C24F1CF6FB6C004C52A0 /* JNWCollectionView-release.xcconfig */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
 		AB1514711714D36200871248 /* Layouts */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +138,7 @@
 			children = (
 				ABB023FA170791D300537A92 /* JNWCollectionView */,
 				ABB023F3170791D300537A92 /* Frameworks */,
+				71D7C2471CF6FB6C004C52A0 /* Configuration */,
 				ABB023F2170791D300537A92 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -319,8 +337,56 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		ABB02419170791D300537A92 /* Debug */ = {
+		71D7C25C1CF6FBF8004C52A0 /* deploy */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71D7C24A1CF6FB6C004C52A0 /* JNWCollectionView-common.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = deploy;
+		};
+		71D7C25D1CF6FBF8004C52A0 /* deploy */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71D7C24D1CF6FB6C004C52A0 /* JNWCollectionView-deploy.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "JNWCollectionView/JNWCollectionView-Prefix.pch";
+				INFOPLIST_FILE = "JNWCollectionView/JNWCollectionView-Info.plist";
+				INSTALL_PATH = "@rpath";
+				LD_DYLIB_INSTALL_NAME = "@rpath/$(PRODUCT_NAME).$(WRAPPER_EXTENSION)/$(PRODUCT_NAME)";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jwilling.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = JNWCollectionView;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = deploy;
+		};
+		71D7C25E1CF6FBFD004C52A0 /* coverage */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71D7C24A1CF6FB6C004C52A0 /* JNWCollectionView-common.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -350,10 +416,66 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
-			name = Debug;
+			name = coverage;
 		};
-		ABB0241A170791D300537A92 /* Release */ = {
+		71D7C25F1CF6FBFD004C52A0 /* coverage */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71D7C24B1CF6FB6C004C52A0 /* JNWCollectionView-coverage.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "JNWCollectionView/JNWCollectionView-Prefix.pch";
+				INFOPLIST_FILE = "JNWCollectionView/JNWCollectionView-Info.plist";
+				INSTALL_PATH = "@rpath";
+				LD_DYLIB_INSTALL_NAME = "@rpath/$(PRODUCT_NAME).$(WRAPPER_EXTENSION)/$(PRODUCT_NAME)";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jwilling.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = JNWCollectionView;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = coverage;
+		};
+		ABB02419170791D300537A92 /* debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71D7C24A1CF6FB6C004C52A0 /* JNWCollectionView-common.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = debug;
+		};
+		ABB0241A170791D300537A92 /* release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71D7C24A1CF6FB6C004C52A0 /* JNWCollectionView-common.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -375,10 +497,11 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
 			};
-			name = Release;
+			name = release;
 		};
-		ABB0241C170791D300537A92 /* Debug */ = {
+		ABB0241C170791D300537A92 /* debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71D7C24C1CF6FB6C004C52A0 /* JNWCollectionView-debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -395,10 +518,11 @@
 				PRODUCT_NAME = JNWCollectionView;
 				WRAPPER_EXTENSION = framework;
 			};
-			name = Debug;
+			name = debug;
 		};
-		ABB0241D170791D300537A92 /* Release */ = {
+		ABB0241D170791D300537A92 /* release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71D7C24F1CF6FB6C004C52A0 /* JNWCollectionView-release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -415,7 +539,7 @@
 				PRODUCT_NAME = JNWCollectionView;
 				WRAPPER_EXTENSION = framework;
 			};
-			name = Release;
+			name = release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -423,20 +547,24 @@
 		ABB023EB170791D300537A92 /* Build configuration list for PBXProject "JNWCollectionView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				ABB02419170791D300537A92 /* Debug */,
-				ABB0241A170791D300537A92 /* Release */,
+				ABB02419170791D300537A92 /* debug */,
+				71D7C25E1CF6FBFD004C52A0 /* coverage */,
+				ABB0241A170791D300537A92 /* release */,
+				71D7C25C1CF6FBF8004C52A0 /* deploy */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = release;
 		};
 		ABB0241B170791D300537A92 /* Build configuration list for PBXNativeTarget "JNWCollectionView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				ABB0241C170791D300537A92 /* Debug */,
-				ABB0241D170791D300537A92 /* Release */,
+				ABB0241C170791D300537A92 /* debug */,
+				71D7C25F1CF6FBFD004C52A0 /* coverage */,
+				ABB0241D170791D300537A92 /* release */,
+				71D7C25D1CF6FBF8004C52A0 /* deploy */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = release;
 		};
 /* End XCConfigurationList section */
 	};

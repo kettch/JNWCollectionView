@@ -1,0 +1,2 @@
+OBJROOT = $(SRCROOT)/../../build
+SYMROOT = $(SRCROOT)/../../bin

@@ -1,0 +1,6 @@
+#include "JNWCollectionView-common.xcconfig"
+
+GCC_PREFIX_HEADER =
+
+GCC_OPTIMIZATION_LEVEL = 0
+GCC_WARN_UNINITIALIZED_AUTOS = NO
