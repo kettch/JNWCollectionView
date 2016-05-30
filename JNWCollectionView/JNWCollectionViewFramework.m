@@ -602,7 +602,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 		BOOL shouldInvalidate = [self.collectionViewLayout shouldInvalidateLayoutForBoundsChange:visibleBounds];
 		[self.data recalculateAndPrepareLayout:shouldInvalidate];
 
-		[self performFullRelayoutForcingSubviewsReset:shouldInvalidate];
+		[self performFullRelayoutForcingSubviewsReset:NO];
 	}
 }
 
