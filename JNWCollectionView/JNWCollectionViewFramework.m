@@ -141,8 +141,8 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	_delegate = delegate;
 	_collectionViewFlags.delegateMouseUp = [delegate respondsToSelector:@selector(collectionView:mouseUpInItemAtIndexPath: withModifierFlags:)];
 	_collectionViewFlags.delegateMouseDown = [delegate respondsToSelector:@selector(collectionView:mouseDownInItemAtIndexPath:withModifierFlags:)];
-    _collectionViewFlags.delegateMouseMoved = [delegate respondsToSelector:@selector(collectionView:mouseMovedInItemAtIndexPath:withModifierFlags:)];
-    _collectionViewFlags.delegateMouseEntered = [delegate respondsToSelector:@selector(collectionView:mouseEnteredInItemAtIndexPath:withModifierFlags:)];
+	_collectionViewFlags.delegateMouseMoved = [delegate respondsToSelector:@selector(collectionView:mouseMovedInItemAtIndexPath:withModifierFlags:)];
+	_collectionViewFlags.delegateMouseEntered = [delegate respondsToSelector:@selector(collectionView:mouseEnteredInItemAtIndexPath:withModifierFlags:)];
 	_collectionViewFlags.delegateMouseExited = [delegate respondsToSelector:@selector(collectionView:mouseExitedInItemAtIndexPath:withModifierFlags:)];
 	_collectionViewFlags.delegateShouldSelect = [delegate respondsToSelector:@selector(collectionView:shouldSelectItemAtIndexPath:)];
 	_collectionViewFlags.delegateDidSelect = [delegate respondsToSelector:@selector(collectionView:didSelectItemAtIndexPath:)];
@@ -507,10 +507,10 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 }
 
 - (void)scrollToItemAtIndexPath:(NSIndexPath *)indexPath atScrollPosition:(JNWCollectionViewScrollPosition)scrollPosition animated:(BOOL)animated {
-    if (_collectionViewFlags.delegateShouldScroll && ![self.delegate collectionView:self shouldScrollToItemAtIndexPath:indexPath]) {
-        return;
-    }
-    
+	if (_collectionViewFlags.delegateShouldScroll && ![self.delegate collectionView:self shouldScrollToItemAtIndexPath:indexPath]) {
+		return;
+	}
+
 	CGRect rect = [self rectForItemAtIndexPath:indexPath];
 	CGRect visibleRect = self.documentVisibleRect;
 	
@@ -969,7 +969,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 			   selectionType:(JNWCollectionViewSelectionType)selectionType {
 	if (indexPath == nil)
 		return;
-    
+	
 	NSMutableSet *indexesToSelect = [NSMutableSet set];
 	
 	if (selectionType == JNWCollectionViewSelectionTypeSingle) {
