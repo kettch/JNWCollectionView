@@ -118,6 +118,10 @@
 	// for subclasses
 }
 
+- (void)didLayoutWithFrame:(CGRect)frame {
+	// for subclasses
+}
+
 - (void)updateTrackingAreas {
     [[self.trackingAreas copy] enumerateObjectsUsingBlock:^(NSTrackingArea * _Nonnull trackingArea, NSUInteger idx, BOOL * _Nonnull stop) {
         [self removeTrackingArea:trackingArea];
