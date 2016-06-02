@@ -78,6 +78,10 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewSelectionType) {
 
 @property (nonatomic, strong) NSView *collectionViewDocumentView;
 
+// drag&drop destination support
+@property (nonatomic, assign) NSInteger proposedIndex;
+@property (nonatomic, assign) NSCollectionViewDropOperation proposedOperation;
+
 @end
 
 @implementation JNWCollectionView
@@ -1112,6 +1116,29 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	}
 	return nil;
 }
+
+#pragma mark Drag & Drop support
+- (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender {
+ 	NSDragOperation dragOperation = NSDragOperationNone;
+
+ 	self.proposedIndex = 0;
+ 	self.proposedOperation = NSCollectionViewDropBefore;
+  
+ 	if([self.delegate respondsToSelector:@selector(collectionView:validateDrop:proposedIndex:dropOperation:)]) {
+		dragOperation = [self.delegate collectionView:self validateDrop:sender proposedIndex:&_proposedIndex dropOperation:&_proposedOperation];
+ 	}
+  
+ 	return dragOperation;
+}
+
+- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender {
+	BOOL dragAccepted = NO;
+	if([self.delegate respondsToSelector:@selector(collectionView:validateDrop:proposedIndex:dropOperation:)]) {
+		dragAccepted = [self.delegate collectionView:self acceptDrop:sender index:self.proposedIndex dropOperation:self.proposedOperation];
+	}
+ 	return dragAccepted;
+}
+
 
 #pragma mark NSObject
 
