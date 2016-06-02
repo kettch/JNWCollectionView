@@ -625,8 +625,6 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 #pragma mark Layout
 
 - (void)layout {
-	[super layout];
-
 	if (CGSizeEqualToSize(self.visibleSize, _lastDrawnSize)) {
 		[self layoutCells];
 		[self layoutSupplementaryViews];
@@ -640,6 +638,8 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 
 		[self performFullRelayoutForcingSubviewsReset:NO];
 	}
+  
+  [super layout];
 }
 
 - (void)collectionViewLayoutWasInvalidated:(JNWCollectionViewLayout *)layout {
