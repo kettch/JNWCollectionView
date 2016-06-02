@@ -957,6 +957,21 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	return nil;
 }
 
+- (void)selectNewItemsAtIndexPaths:(NSArray *)indexPaths
+													animated:(BOOL)animated {
+	if (indexPaths == nil)
+		return;
+	
+	NSMutableSet *indexesToSelect = [NSMutableSet set];
+	[indexesToSelect addObjectsFromArray:indexPaths];
+
+	NSMutableSet *indexesToDeselect = [NSMutableSet setWithArray:self.selectedIndexes];
+	[indexesToDeselect minusSet:indexesToSelect];
+
+	[self selectItemsAtIndexPaths:indexesToSelect.allObjects animated:animated];
+	[self deselectItemsAtIndexPaths:indexesToDeselect.allObjects animated:animated];
+}
+
 - (void)selectItemAtIndexPath:(NSIndexPath *)indexPath
 			atScrollPosition:(JNWCollectionViewScrollPosition)scrollPosition
 					animated:(BOOL)animated
