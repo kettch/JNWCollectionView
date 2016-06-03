@@ -993,8 +993,9 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	return nil;
 }
 
-- (void)selectNewItemsAtIndexPaths:(NSArray *)indexPaths
-													animated:(BOOL)animated {
+- (void)selectItemsAtIndexPaths:(NSArray *)indexPaths
+               atScrollPosition:(JNWCollectionViewScrollPosition)scrollPosition
+                       animated:(BOOL)animated {
 	if (indexPaths == nil)
 		return;
 	
@@ -1006,6 +1007,9 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 
 	[self selectItemsAtIndexPaths:indexesToSelect.allObjects animated:animated];
 	[self deselectItemsAtIndexPaths:indexesToDeselect.allObjects animated:animated];
+  
+  if (indexPaths.count > 0)
+    [self scrollToItemAtIndexPath:indexPaths[0] atScrollPosition:scrollPosition animated:animated];
 }
 
 - (void)selectItemAtIndexPath:(NSIndexPath *)indexPath

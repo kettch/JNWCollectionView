@@ -302,7 +302,9 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 - (void)selectItemAtIndexPath:(NSIndexPath *)indexPath atScrollPosition:(JNWCollectionViewScrollPosition)scrollPosition animated:(BOOL)animated;
 
 /// Selects a list of items at the specified index paths, deselecting any other selected items in the process, optionally animated.
-- (void)selectNewItemsAtIndexPaths:(NSArray *)indexPaths animated:(BOOL)animated;
+/// The collection view will then scroll to the first item in the position as determined by scrollPosition. If no scroll is
+/// desired, pass in JNWCollectionViewScrollPositionNone to prevent the scroll..
+- (void)selectItemsAtIndexPaths:(NSArray *)indexPaths atScrollPosition:(JNWCollectionViewScrollPosition)scrollPosition animated:(BOOL)animated;
 
 /// Selects all items in the collection view.
 - (void)selectAllItems;
