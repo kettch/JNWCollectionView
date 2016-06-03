@@ -129,7 +129,7 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 - (NSDragOperation)collectionView:(JNWCollectionView *)collectionView validateDrop:(id<NSDraggingInfo>)draggingInfo proposedIndex:(NSInteger *)proposedDropIndex dropOperation:(NSCollectionViewDropOperation *)proposedDropOperation;
 
 /// Asks the delegate to perform the drop operation for a given dragging info, at a given index
-- (BOOL)collectionView:(NSCollectionView *)collectionView acceptDrop:(id<NSDraggingInfo>)draggingInfo index:(NSInteger)index dropOperation:(NSCollectionViewDropOperation)dropOperation;
+- (BOOL)collectionView:(JNWCollectionView *)collectionView acceptDrop:(id<NSDraggingInfo>)draggingInfo index:(NSInteger)index dropOperation:(NSCollectionViewDropOperation)dropOperation;
 @end
 
 #pragma mark Reloading and customizing

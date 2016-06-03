@@ -1117,11 +1117,41 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	return nil;
 }
 
+- (NSUInteger)flatIndexForIndexPath:(NSIndexPath *)indexPath {
+  NSUInteger flatIndex = 0;
+  
+  for(NSUInteger sectionIndex = 0; sectionIndex < indexPath.jnw_section; sectionIndex++) {
+	flatIndex += [self numberOfItemsInSection:sectionIndex];
+  }
+  flatIndex += indexPath.jnw_item;
+  
+  return flatIndex;
+}
+
+- (NSIndexPath *)indexPathForFlatIndex:(NSInteger)flatIndex {
+  NSUInteger indexes[] = {0, 0};
+  
+  while(flatIndex > [self numberOfItemsInSection:indexes[0]]) {
+	flatIndex -= [self numberOfItemsInSection:indexes[0]];
+	indexes[0]++;
+  }
+	
+  indexes[1] = flatIndex;
+  
+  return [NSIndexPath indexPathWithIndexes:indexes length:2];
+}
+
 #pragma mark Drag & Drop support
 - (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender {
  	NSDragOperation dragOperation = NSDragOperationNone;
 
- 	self.proposedIndex = 0;
+    NSPoint globalLocation = [NSEvent mouseLocation];
+    NSPoint windowLocation = [self.window convertRectFromScreen:NSMakeRect(globalLocation.x, globalLocation.y, 0.0, 0.0)].origin;
+    NSPoint viewLocation = [self convertPoint:windowLocation fromView:nil];
+
+	NSIndexPath *hoveredIndexPath = [self indexPathForItemAtPoint:viewLocation];
+	
+ 	self.proposedIndex = [self flatIndexForIndexPath:hoveredIndexPath];
  	self.proposedOperation = NSCollectionViewDropBefore;
   
  	if([self.delegate respondsToSelector:@selector(collectionView:validateDrop:proposedIndex:dropOperation:)]) {
