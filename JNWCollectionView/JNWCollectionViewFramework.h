@@ -104,7 +104,8 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 - (BOOL)collectionView:(JNWCollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath;
 
 /// Tells the delegate that the item at the specified index path has been deselected.
-- (void)collectionView:(JNWCollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath;
+- (void)collectionView:(JNWCollectionView *)collectionView didDeselectItemsAtIndexPaths:(NSArray *)indexPaths;
+- (void)collectionView:(JNWCollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath __deprecated_msg("Use collectionView:didDeselectItemsAtIndexPaths: instead.");
 
 /// Tells the delegate that the item at the specified index path has been double-clicked.
 - (void)collectionView:(JNWCollectionView *)collectionView didDoubleClickItemAtIndexPath:(NSIndexPath *)indexPath;
