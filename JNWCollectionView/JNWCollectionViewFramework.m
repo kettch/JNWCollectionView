@@ -51,6 +51,7 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewSelectionType) {
 		unsigned int delegateDidSelect:1;
 		unsigned int delegateShouldDeselect:1;
 		unsigned int delegateDidDeselect:1;
+		unsigned int delegateDidDeselectItems:1;
 		unsigned int delegateShouldScroll:1;
 		unsigned int delegateDidScroll:1;
 		unsigned int delegateDidDoubleClick:1;
@@ -158,6 +159,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	_collectionViewFlags.delegateDidSelect = [delegate respondsToSelector:@selector(collectionView:didSelectItemAtIndexPath:)];
 	_collectionViewFlags.delegateShouldDeselect = [delegate respondsToSelector:@selector(collectionView:shouldDeselectItemAtIndexPath:)];
 	_collectionViewFlags.delegateDidDeselect = [delegate respondsToSelector:@selector(collectionView:didDeselectItemAtIndexPath:)];
+	_collectionViewFlags.delegateDidDeselectItems = [delegate respondsToSelector:@selector(collectionView:didDeselectItemsAtIndexPaths:)];
 	_collectionViewFlags.delegateDidDoubleClick = [delegate respondsToSelector:@selector(collectionView:didDoubleClickItemAtIndexPath:)];
 	_collectionViewFlags.delegateDidRightClick = [delegate respondsToSelector:@selector(collectionView:didRightClickItemAtIndexPath:)];
 	_collectionViewFlags.delegateDidEndDisplayingCell = [delegate respondsToSelector:@selector(collectionView:didEndDisplayingCell:forItemAtIndexPath:)];
@@ -339,10 +341,15 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	NSArray *selectedIndexes = self.selectedIndexes.copy;
 	[self.selectedIndexes removeAllObjects];
 
-	if (_collectionViewFlags.delegateDidDeselect) {
+	if (_collectionViewFlags.delegateDidDeselectItems) {
+		[self.delegate collectionView:self didDeselectItemsAtIndexPaths:selectedIndexes];
+	} else if (_collectionViewFlags.delegateDidDeselect) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		for (NSIndexPath *indexPath in selectedIndexes) {
 			[self.delegate collectionView:self didDeselectItemAtIndexPath:indexPath];
 		}
+#pragma clang diagnostic pop
 	}
 	
 	[self.data recalculateAndPrepareLayout:YES];
@@ -928,8 +935,36 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 }
 
 - (void)deselectItemsAtIndexPaths:(NSArray *)indexPaths animated:(BOOL)animated {
+	if (!self.allowsSelection) {
+		return;
+	}
+
+	NSMutableSet *indexPathsToDeselect = [NSMutableSet set];
 	for (NSIndexPath *indexPath in indexPaths) {
-		[self deselectItemAtIndexPath:indexPath animated:animated];
+		if (_collectionViewFlags.delegateShouldDeselect && ![self.delegate collectionView:self shouldDeselectItemAtIndexPath:indexPath]) {
+			continue;
+		}
+
+		[indexPathsToDeselect addObject:indexPath];
+	}
+
+	if (!self.allowsEmptySelection) {
+		NSMutableSet *indexPathsLeft = [NSMutableSet setWithArray:self.indexPathsForSelectedItems];
+		[indexPathsLeft minusSet:indexPathsToDeselect];
+
+		if (indexPathsLeft.count == 0) {
+			return;
+		}
+	}
+
+	for (NSIndexPath *indexPath in indexPathsToDeselect) {
+		JNWCollectionViewCell *cell = [self cellForItemAtIndexPath:indexPath];
+		[cell setSelected:NO animated:self.animatesSelection];
+	}
+	[self.selectedIndexes removeObjectsInArray:indexPathsToDeselect.allObjects];
+
+	if (_collectionViewFlags.delegateDidDeselectItems) {
+		[self.delegate collectionView:self didDeselectItemsAtIndexPaths:indexPathsToDeselect.allObjects];
 	}
 }
 
@@ -951,8 +986,13 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	[cell setSelected:NO animated:self.animatesSelection];
 	[self.selectedIndexes removeObject:indexPath];
 	
-	if (_collectionViewFlags.delegateDidDeselect) {
+	if (_collectionViewFlags.delegateDidDeselectItems) {
+		[self.delegate collectionView:self didDeselectItemsAtIndexPaths:@[indexPath]];
+	} else if (_collectionViewFlags.delegateDidDeselect) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		[self.delegate collectionView:self didDeselectItemAtIndexPath:indexPath];
+#pragma clang diagnostic pop
 	}
 }
 
