@@ -84,6 +84,10 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewSelectionType) {
 
 @property (nonatomic, strong) NSView *collectionViewDocumentView;
 
+// drag&drop destination support
+@property (nonatomic, assign) NSInteger proposedDropIndex;
+@property (nonatomic, assign) NSCollectionViewDropOperation proposedDropOperation;
+
 @end
 
 @implementation JNWCollectionView
@@ -419,6 +423,16 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	}
 	
 	return nil;
+}
+
+- (NSIndexPath *)indexPathAtCursorPosition
+{
+  NSPoint globalLocation = [NSEvent mouseLocation];
+  NSPoint windowLocation = [self.window convertRectFromScreen:NSMakeRect(globalLocation.x, globalLocation.y, 0.0, 0.0)].origin;
+  NSPoint viewLocation = [self convertPoint:windowLocation fromView:nil];
+  
+  return [self indexPathForItemAtPoint:viewLocation];
+  
 }
 
 - (NSArray *)visibleCells {
@@ -1227,6 +1241,65 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	}
 	return nil;
 }
+
+- (NSUInteger)flatIndexForIndexPath:(NSIndexPath *)indexPath {
+  NSUInteger flatIndex = 0;
+  
+  for(NSUInteger sectionIndex = 0; sectionIndex < indexPath.jnw_section; sectionIndex++) {
+	flatIndex += [self numberOfItemsInSection:sectionIndex];
+  }
+  flatIndex += indexPath.jnw_item;
+  
+  return flatIndex;
+}
+
+- (NSIndexPath *)indexPathForFlatIndex:(NSUInteger)flatIndex {
+  NSUInteger indexes[] = {0, 0};
+  
+  while(flatIndex > [self numberOfItemsInSection:indexes[0]]) {
+	flatIndex -= [self numberOfItemsInSection:indexes[0]];
+	indexes[0]++;
+  }
+	
+  indexes[1] = flatIndex;
+  
+  return [NSIndexPath indexPathWithIndexes:indexes length:2];
+}
+
+#pragma mark Drag & Drop support
+- (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender {
+ 	NSDragOperation dragOperation = NSDragOperationNone;
+	NSIndexPath *hoveredFlatIndexPath = [self indexPathAtCursorPosition];
+	
+ 	self.proposedDropIndex = [self flatIndexForIndexPath:hoveredFlatIndexPath];
+ 	self.proposedDropOperation = NSCollectionViewDropBefore;
+  
+ 	if([self.delegate respondsToSelector:@selector(collectionView:validateDrop:proposedIndex:dropOperation:)]) {
+		dragOperation = [self.delegate collectionView:self validateDrop:sender proposedIndex:&_proposedDropIndex dropOperation:&_proposedDropOperation];
+ 	}
+  
+ 	return dragOperation;
+}
+
+- (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender {
+  NSUInteger hoveredFlatIndex = [self flatIndexForIndexPath:[self indexPathAtCursorPosition]];
+  
+  if(hoveredFlatIndex != self.proposedDropIndex) {
+    return [self draggingEntered:sender];
+  } else {
+    return [super draggingUpdated:sender];
+  }
+
+}
+
+- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender {
+	BOOL dragAccepted = NO;
+	if([self.delegate respondsToSelector:@selector(collectionView:validateDrop:proposedIndex:dropOperation:)]) {
+		dragAccepted = [self.delegate collectionView:self acceptDrop:sender index:self.proposedDropIndex dropOperation:self.proposedDropOperation];
+	}
+ 	return dragAccepted;
+}
+
 
 #pragma mark NSObject
 
