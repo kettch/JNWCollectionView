@@ -259,8 +259,10 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 /// Returns the index paths for any selected items. Order is not guaranteed.
 - (NSArray *)indexPathsForSelectedItems;
 
+/// Returns the global, section-independant index for a given index path
 - (NSUInteger)flatIndexForIndexPath:(NSIndexPath *)indexPath;
 
+/// Returns the index path corresponding to a global, section-independant index
 - (NSIndexPath *)indexPathForFlatIndex:(NSUInteger)flatIndex;
 
 #pragma mark - Selection
